@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Log Entries</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Log Entries</h1>
+        <form class="form-inline my-2 my-lg-0" action="/level" method="POST">
+            <select class="form-control mr-sm-2" name="level">
+                <option value="">All levels</option>
+                <option value="DEBUG">DEBUG</option>
+                <option value="INFO">INFO</option>
+                <option value="WARNING">WARNING</option>
+                <option value="ERROR">ERROR</option>
+                <option value="CRITICAL">CRITICAL</option>
+            </select>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Filter</button>
+        </form>
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th style="width: 20%" scope="col">Time</th>
+                    <th style="width: 10%" scope="col">Level</th>
+                    <th style="width: 20%" scope="col">Module</th>
+                    <th style="width: 50%" scope="col">Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in log_entries %}
+                <tr>
+                    <td>
+                        {{ convert_to_india_time(entry['asctime']) }}
+                    </td>
+                    <td>
+                        {{ entry['level'] }}
+                    </td>
+                    <td>
+                        {{ entry['module'] }}
+                    </td>
+                    <td>
+                        {{ entry['message'] }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
