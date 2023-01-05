@@ -1,12 +1,16 @@
 from flask import Flask, render_template, request, redirect
 import json
 import pytz
+import yaml
 import datetime
 
 app = Flask(__name__)
 
 
 india_timezone = pytz.timezone("Asia/Kolkata")
+with open("config.yaml", "r") as f:
+    config = yaml.safe_load(f)
+log_file = config["LOG_FILE"]["PATH"]
 
 
 def convert_to_india_time(asctime):
@@ -16,7 +20,7 @@ def convert_to_india_time(asctime):
 
 @app.route("/")
 def view_logs():
-    with open("pybot.log", "r") as f:
+    with open(log_file, "r") as f:
         log_entries = []
         for line in f:
             try:
@@ -32,7 +36,7 @@ def view_logs():
 
 @app.route("/level/<level>")
 def view_logs_by_level(level):
-    with open("pybot.log", "r") as f:
+    with open(log_file, "r") as f:
         log_entries = []
         for line in f:
             try:
